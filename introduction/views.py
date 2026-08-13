@@ -155,11 +155,9 @@ def sql_lab(request):
 
             if login.objects.filter(user=name):
 
-                sql_query = "SELECT * FROM introduction_login WHERE user='"+name+"' AND password='"+password+"'"
-                print(sql_query)
                 try:
                     print("\nin try\n")
-                    val=login.objects.raw(sql_query)
+                    val = login.objects.filter(user=name, password=password)
                 except:
                     print("\nin except\n")
                     return render(
@@ -167,7 +165,7 @@ def sql_lab(request):
                         'Lab/SQL/sql_lab.html',
                         {
                             "wrongpass":password,
-                            "sql_error":sql_query
+                            "sql_error": "Authentication failed"
                         })
 
                 if val:
@@ -179,7 +177,7 @@ def sql_lab(request):
                         'Lab/SQL/sql_lab.html',
                         {
                             "wrongpass":password,
-                            "sql_error":sql_query
+                            "sql_error": "Authentication failed"
                         })
             else:
                 return render(request, 'Lab/SQL/sql_lab.html',{"no": "User not found"})
@@ -189,7 +187,6 @@ def sql_lab(request):
         return redirect('login')
 
 #***************** INSECURE DESERIALIZATION***************************************************************#
-
 def insec_des(request):
     if request.user.is_authenticated:
         return  render(request,'Lab/insec_des/insec_des.html')
