@@ -449,7 +449,6 @@ def cmd_lab(request):
     else:
         return redirect('login')
 
-@csrf_exempt
 def cmd_lab2(request):
     if request.user.is_authenticated:
         if (request.method=="POST"):
