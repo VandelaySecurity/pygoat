@@ -383,6 +383,7 @@ def ba_lab(request):
 #********************************************************Sensitive Data Exposure*****************************************************#
 
 
+
 def data_exp(request):
     if request.user.is_authenticated:
         return  render(request,'Lab/DataExp/data_exp.html')
@@ -411,7 +412,7 @@ def cmd(request):
         return render(request,'Lab/CMD/cmd.html')
     else:
         return redirect('login')
-@csrf_exempt
+
 def cmd_lab(request):
     if request.user.is_authenticated:
         if(request.method=="POST"):
