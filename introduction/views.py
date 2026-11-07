@@ -851,7 +851,6 @@ def injection(request):
     return render(request,"Lab_2021/A3_Injection/injection.html")
 
 
-@csrf_exempt
 def injection_sql_lab(request):
     if request.user.is_authenticated:
 
@@ -931,7 +930,6 @@ def ssrf_lab(request):
                 return render(request, "Lab/ssrf/ssrf_lab.html", {"blog": "No blog found"})
     else:
         return redirect('login')
-
 def ssrf_discussion(request):
     if request.user.is_authenticated:
         return render(request,"Lab/ssrf/ssrf_discussion.html")
