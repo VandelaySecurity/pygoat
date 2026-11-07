@@ -735,7 +735,6 @@ def insec_desgine_lab(request):
 
 ###################################################### 2021 A1: Broken Access
 
-@csrf_exempt
 def a1_broken_access(request):
     if not request.user.is_authenticated:
         return redirect('login')
@@ -743,7 +742,6 @@ def a1_broken_access(request):
     return render(request,"Lab_2021/A1_BrokenAccessControl/broken_access.html")
 
 
-@csrf_exempt
 def a1_broken_access_lab_1(request):
     if request.user.is_authenticated:
         pass
@@ -779,7 +777,6 @@ def a1_broken_access_lab_1(request):
     else:
         return render(request,'Lab_2021/A1_BrokenAccessControl/broken_access_lab_1.html',{"no_creds":True})
 
-@csrf_exempt
 def a1_broken_access_lab_2(request):
     if request.user.is_authenticated:
         pass
