@@ -252,7 +252,6 @@ def xxe_see(request):
         return redirect('login')
 
 
-@csrf_exempt
 def xxe_parse(request):
 
     parser = make_parser()
