@@ -338,7 +338,7 @@ def ba(request):
         return render(request,"Lab/BrokenAccess/ba.html")
     else:
         return redirect('login')
-@csrf_exempt
+
 def ba_lab(request):
     if request.user.is_authenticated:
         name = request.POST.get('name')
