@@ -236,7 +236,6 @@ def xxe_lab(request):
     else:
         return redirect('login')
 
-@csrf_exempt
 def xxe_see(request):
     if request.user.is_authenticated:
         # Get first comment or create a default one if none exist
