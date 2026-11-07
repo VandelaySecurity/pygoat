@@ -959,6 +959,46 @@ def ssrf_lab2(request):
 
     elif request.method == "POST":
         url = request.POST["url"]
+        
+        from urllib.parse import urlparse
+        
+        parsed = urlparse(url)
+        if parsed.scheme not in ['http', 'https']:
+            return render(request, "Lab/ssrf/ssrf_lab2.html", {"error": "URL not allowed"})
+        
+        hostname = parsed.netloc.split(':')[0] if parsed.netloc else ''
+        
+        if not hostname:
+            return render(request, "Lab/ssrf/ssrf_lab2.html", {"error": "URL not allowed"})
+        
+        if hostname in ['localhost', '127.0.0.1', '::1']:
+            return render(request, "Lab/ssrf/ssrf_lab2.html", {"error": "URL not allowed"})
+        
+        if hostname.startswith('127.'):
+            return render(request, "Lab/ssrf/ssrf_lab2.html", {"error": "URL not allowed"})
+        
+        if hostname.startswith('10.'):
+            return render(request, "Lab/ssrf/ssrf_lab2.html", {"error": "URL not allowed"})
+        
+        if hostname.startswith('192.168.'):
+            return render(request, "Lab/ssrf/ssrf_lab2.html", {"error": "URL not allowed"})
+        
+        if hostname.startswith('169.254.'):
+            return render(request, "Lab/ssrf/ssrf_lab2.html", {"error": "URL not allowed"})
+        
+        if hostname.startswith('172.'):
+            parts = hostname.split('.')
+            if len(parts) >= 2:
+                try:
+                    second_octet = int(parts[1])
+                    if 16 <= second_octet <= 31:
+                        return render(request, "Lab/ssrf/ssrf_lab2.html", {"error": "URL not allowed"})
+                except ValueError:
+                    pass
+        
+        if hostname.lower().startswith('fe80:'):
+            return render(request, "Lab/ssrf/ssrf_lab2.html", {"error": "URL not allowed"})
+        
         try:
             response = requests.get(url)
             return render(request, "Lab/ssrf/ssrf_lab2.html", {"response": response.content.decode()})
