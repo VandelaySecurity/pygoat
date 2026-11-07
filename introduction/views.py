@@ -196,11 +196,8 @@ def insec_des(request):
     else:
         return redirect('login')
 
-@dataclass
-class TestUser:
-    admin: int = 0
-pickled_user = pickle.dumps(TestUser())
-encoded_user = base64.b64encode(pickled_user)
+default_user_data = json.dumps({"admin": 0})
+encoded_user = signing.dumps(default_user_data)
 
 def insec_des_lab(request):
     if request.user.is_authenticated:
@@ -208,11 +205,15 @@ def insec_des_lab(request):
         token = request.COOKIES.get('token')
         if token == None:
             token = encoded_user
-            response.set_cookie(key='token',value=token.decode('utf-8'))
+            response.set_cookie(key='token',value=token)
         else:
-            token = base64.b64decode(token)
-            admin = pickle.loads(token)
-            if admin.admin == 1:
+            try:
+                user_data_json = signing.loads(token)
+                admin = json.loads(user_data_json)
+            except (signing.BadSignature, json.JSONDecodeError):
+                # Invalid or tampered token, treat as non-admin
+                admin = {"admin": 0}
+            if admin.get("admin") == 1:
                 response = render(request,'Lab/insec_des/insec_des_lab.html', {"message":"Welcome Admin, SECRETKEY:ADMIN123"})
                 return response
 
