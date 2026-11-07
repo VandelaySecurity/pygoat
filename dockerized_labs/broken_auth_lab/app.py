@@ -83,7 +83,7 @@ def reset_password():
     for username, user_data in users.items():
         if user_data['email'] == email:
             # Vulnerable: Predictable token generation
-            token = hashlib.md5(f"{email}:{datetime.now()}".encode()).hexdigest()
+            token = secrets.token_urlsafe(32)
             password_reset_tokens[token] = username
             
             # In a real application, this would send an email
