@@ -547,7 +547,7 @@ def a9(request):
         return render(request,"Lab/A9/a9.html")
     else:
         return redirect('login')
-@csrf_exempt
+
 def a9_lab(request):
     if request.user.is_authenticated:
         if request.method=="GET":
