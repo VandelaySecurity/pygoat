@@ -19,7 +19,6 @@ from .views import authentication_decorator
 # 2. extract inputs form 2nd code 
 # 3. Run the code 
 # 4. get the result
-@csrf_exempt
 def ssrf_code_checker(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
