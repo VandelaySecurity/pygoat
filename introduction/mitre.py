@@ -128,6 +128,7 @@ def mitre_top21(request):
     if request.method == 'GET':
         return render(request, 'mitre/mitre_top21.html')
 
+from django.contrib.auth.hashers import make_password, check_password
 
 @authentication_decorator
 def mitre_top22(request):
@@ -158,9 +159,8 @@ def csrf_lab_login(request):
     elif request.method == 'POST':
         password = request.POST.get('password')
         username = request.POST.get('username')
-        password = md5(password.encode()).hexdigest()
-        User = CSRF_user_tbl.objects.filter(username=username, password=password)
-        if User:
+        User = CSRF_user_tbl.objects.filter(username=username)
+        if User and check_password(password, User[0].password):
             payload ={
                 'username': username,
                 'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=300),
