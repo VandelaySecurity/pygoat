@@ -24,7 +24,7 @@ def serialize_data():
     # Create regular user with admin=False
     user = User(username=username, is_admin=False)
     # Match PyGoat's serialization format
-    serialized = base64.b64encode(pickle.dumps(user)).decode()
+    serialized = base64.b64encode(json.dumps({'username': user.username, 'is_admin': user.is_admin}).encode()).decode()
     return render_template('result.html', serialized=serialized)
 
 @app.route('/deserialize', methods=['POST'])
@@ -33,7 +33,8 @@ def deserialize_data():
         serialized_data = request.form.get('serialized_data', '')
         decoded_data = base64.b64decode(serialized_data)
         # Intentionally vulnerable deserialization, matching PyGoat
-        user = pickle.loads(decoded_data)
+        user_dict = json.loads(decoded_data.decode())
+        user = User(username=user_dict.get('username', 'guest'), is_admin=user_dict.get('is_admin', False))
         
         if isinstance(user, User):
             if user.is_admin:
