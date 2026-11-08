@@ -109,7 +109,6 @@ def A7_disscussion_api(request):
     return JsonResponse({"message":"failure"},status = 400)
 
 #a6 codechecking api
-@csrf_exempt
 def A6_disscussion_api(request):
     test_bench = ["Pillow==8.0.0","PyJWT==2.4.0","requests==2.28.0","Django==4.0.4"]
     
