@@ -158,9 +158,8 @@ def csrf_lab_login(request):
     elif request.method == 'POST':
         password = request.POST.get('password')
         username = request.POST.get('username')
-        password = md5(password.encode()).hexdigest()
-        User = CSRF_user_tbl.objects.filter(username=username, password=password)
-        if User:
+        User = CSRF_user_tbl.objects.filter(username=username)
+        if User and bcrypt.checkpw(password.encode('utf-8'), User[0].password.encode('utf-8')):
             payload ={
                 'username': username,
                 'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=300),
