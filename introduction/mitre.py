@@ -234,7 +234,6 @@ def command_out(command):
     return process.communicate()
     
 
-@csrf_exempt
 def mitre_lab_17_api(request):
     if request.method == "POST":
         ip = request.POST.get('ip')
