@@ -122,7 +122,6 @@ def A6_disscussion_api(request):
     except Exception as e:
         return JsonResponse({"message":"failure"},status = 400)
 
-@csrf_exempt
 def A6_disscussion_api_2(request):
     if request.method != 'POST':
         return JsonResponse({"message":"method not allowed"},status = 405)
